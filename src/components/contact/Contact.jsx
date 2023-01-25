@@ -4,7 +4,29 @@ import { MdOutlineMail } from "react-icons/md"
 import { RiMessengerLine } from "react-icons/ri"
 import { BsPhone } from "react-icons/bs"
 
+import { useRef } from "react"
+import emailjs from "@emailjs/browser"
+
 const Contact = () => {
+	const form = useRef()
+
+	const sendEmail = (e) => {
+		e.preventDefault()
+
+		emailjs
+			.sendForm("service_0o5j836", "template_wupzyvq", form.current, "99fQT-pqKpYpHjkPX")
+			.then(
+				(result) => {
+					console.log(result.text)
+				},
+				(error) => {
+					console.log(error.text)
+				}
+			)
+
+		e.target.reset()
+	}
+
 	return (
 		<section id="contact">
 			<h5>Si hei</h5>
@@ -42,7 +64,7 @@ const Contact = () => {
 					</article>
 				</div>
 
-				<form action="">
+				<form ref={form} onSubmit={sendEmail}>
 					<input type="text" name="name" placeholder="Fult navn" required />
 					<input type="email" name="email" placeholder="Epost" required />
 					<textarea name="message" rows="7" placeholder="Melding" required></textarea>
